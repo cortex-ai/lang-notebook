@@ -1,6 +1,6 @@
 #项目架构
 lang_notebook/
-├── manage.py
+├── manage.py                     #Django管理脚本
 ├── lang_notebook/                # 项目配置目录
 │   ├── __init__.py
 │   ├── settings.py               # 配置文件，建议拆分 dev/prod

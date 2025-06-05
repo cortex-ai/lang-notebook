@@ -1,3 +1,4 @@
 # Auto-generated file
-psycopg2-binary>=2.9.3
-python-dotenv>=0.19.0
+psycopg2-binary>=2.9.3 #用于连接 PostgreSQL 数据库
+python-dotenv>=0.19.0 #用于加载环境变量
+

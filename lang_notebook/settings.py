@@ -4,19 +4,34 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# 加载环境变量
-load_dotenv()
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# 首先定义 BASE_DIR
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# 设置环境变量
+ENV = os.getenv('DJANGO_ENV', 'dev')  # 默认为开发环境
+env_file = f".env.{ENV}"
+env_path = BASE_DIR / env_file
+
+# 加载环境变量文件
+if env_path.exists():
+    load_dotenv(env_path, override=True)
+    print(f"Loaded environment from {env_path}")
+else:
+    # 如果指定的环境文件不存在，尝试加载默认的 .env 文件
+    default_env = BASE_DIR / ".env"
+    if default_env.exists():
+        load_dotenv(default_env, override=True)
+        print(f"Loaded default environment from {default_env}")
+    else:
+        print(f"Warning: No environment file found at {env_path} or {default_env}")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-your-default-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
 # Application definition
 INSTALLED_APPS = [
@@ -107,5 +122,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Custom user model
-AUTH_USER_MODEL = 'users.User'
+
+AUTH_USER_MODEL = 'users.UserAccount'
